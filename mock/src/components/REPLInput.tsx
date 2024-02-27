@@ -20,12 +20,14 @@ export function REPLInput(props : REPLInputProps) {
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
       setCount(count+1)
+      const userInput = commandString.split("");
+    
       // CHANGED
-      const result: string | string[][] = view([]);
+      console.log()
+      const result: string | string[][] = view(["mock/view.csv"]);
       const flattenedResult: string[] = Array.isArray(result)
             ? result.flat()
             : [result];
-
       
       props.setHistory([...props.history, ...flattenedResult])
       setCommandString('')

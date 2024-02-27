@@ -1,3 +1,4 @@
+import { csvDataMap } from "../mockedJSON";
 import { REPLFunction } from "./REPLInput";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -32,6 +33,9 @@ export function CommandHandler() {
 
 export const view: REPLFunction = (args: Array<string>): string | string[][] => {
     // Your implementation here
-    console.log("result");
-    return "Result"; // Example return value
+    const filepath = args[0]
+
+    const file = csvDataMap[filepath]
+
+    return file; // Example return value
 };
