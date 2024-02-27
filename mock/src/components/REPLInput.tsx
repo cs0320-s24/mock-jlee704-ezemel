@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
-import { CommandHandler } from './CommandHandler';
+import { CommandHandler, view } from './CommandHandler';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -17,14 +17,17 @@ export function REPLInput(props : REPLInputProps) {
     const [commandString, setCommandString] = useState<string>('');
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
-    
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
       setCount(count+1)
       // CHANGED
-      const { handleCommand } = CommandHandler();
-      let result =  handleCommand(commandString, []) as string
-      props.setHistory([...props.history, result])
+      const result: string | string[][] = view([]);
+      const flattenedResult: string[] = Array.isArray(result)
+            ? result.flat()
+            : [result];
+
+      
+      props.setHistory([...props.history, ...flattenedResult])
       setCommandString('')
     }
     /**
@@ -57,4 +60,3 @@ export function REPLInput(props : REPLInputProps) {
 export interface REPLFunction {    
   (args: Array<string>): string|string[][]
 }
-
