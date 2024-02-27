@@ -17,14 +17,23 @@ export function REPLInput(props : REPLInputProps) {
     const [commandString, setCommandString] = useState<string>('');
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
+    // keeps track of functions to call
+    const [commandMap, setcommandMap] = useState<Map<string, REPLFunction>>(
+      new Map([["view", view]])
+    );
+
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
-      setCount(count+1)
-      const userInput = commandString.split("");
-    
-      // CHANGED
-      console.log()
-      const result: string | string[][] = view(["mock/view.csv"]);
+      setCount(count+1);
+      const userInput = commandString.split(" ");
+      console.log(userInput);
+
+      const command = userInput[0];
+      const args = userInput[1]
+      // if command in myMap
+      const result: string | string[][] =
+          commandMap.get(command)?.(["mock/view.csv"]) ?? "Command not found";
+      
       const flattenedResult: string[] = Array.isArray(result)
             ? result.flat()
             : [result];
