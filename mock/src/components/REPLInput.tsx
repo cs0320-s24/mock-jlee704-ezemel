@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
+import { CommandHandler } from './CommandHandler';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -21,7 +22,9 @@ export function REPLInput(props : REPLInputProps) {
     function handleSubmit(commandString:string) {
       setCount(count+1)
       // CHANGED
-      props.setHistory([...props.history, commandString])
+      const { handleCommand } = CommandHandler();
+      let result =  handleCommand(commandString, []) as string
+      props.setHistory([...props.history, result])
       setCommandString('')
     }
     /**
@@ -52,5 +55,5 @@ export function REPLInput(props : REPLInputProps) {
  * *NOT* contain the command-name prefix.
  */
 export interface REPLFunction {    
-  (args: Array<string>): String|String[][]
+  (args: Array<string>): string|string[][]
 }
