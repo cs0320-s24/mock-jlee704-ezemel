@@ -1,41 +1,53 @@
 import { csvDataMap } from "../mockedJSON";
 import { REPLFunction } from "./REPLInput";
 import { Dispatch, SetStateAction, useState } from "react";
+import { useFPathState } from "../filePath";
 
-export function CommandHandler() {
-  
 
-  const [myMap, setmyMap] = useState<Map<string, REPLFunction>>(
-    new Map([
-        ["view", view]
-    ])
-  );
+export function CommandHandler() {}
 
-  const handleCommand: (
-    command: string,
-    args: Array<string>
-  ) => string | string[][] = (command, args) => {
-    // Your implementation here
-    const func = myMap.get(command);
-    if (func) {
-      // Check if the function exists in the map
-      const result = func(args);
-      return result; // Example return value
-    } else {
-      // Handle the case when the command is not found
-      console.error(`Command '${command}' not found`);
-      return "error";
-    }
-  };
+export const view: REPLFunction = (
+  args: Array<string>
+): string | string[][] => {
 
-  return { handleCommand }; // Export the handleCommand function
-}
+  const { fPath } = useFPathState();
 
-export const view: REPLFunction = (args: Array<string>): string | string[][] => {
-    // Your implementation here
-    const filepath = args[0]
+  if (fPath == "") {
+    return "file not loaded";
+  }
 
-    const file = csvDataMap[filepath]
+  const mockData = csvDataMap[fPath];
 
-    return file; // Example return value
+  return mockData;
 };
+
+export const search: REPLFunction = (
+  args: Array<string>
+): string | string[][] => {
+    const { fPath } = useFPathState();
+
+  if (fPath == "") {
+    return "file not loaded";
+  }
+
+  const filepath = args[0];
+
+  const file = csvDataMap[filepath];
+
+  return file; 
+};
+
+export const load: REPLFunction = (
+  args: Array<string>,
+  
+): string | string[][] => {
+  const {fPath, setFPath} = useFPathState();
+
+    const newFPath = args[0];
+    setFPath(newFPath);
+
+
+  const mockData = csvDataMap[fPath] ?? "file not found";
+
+  return mockData;
+}

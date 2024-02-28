@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
-import { CommandHandler, view } from './CommandHandler';
+import { CommandHandler, search, view } from './CommandHandler';
+import {load} from './Commands/Load';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -17,27 +18,39 @@ export function REPLInput(props : REPLInputProps) {
     const [commandString, setCommandString] = useState<string>('');
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
+    // keep track of filepath
+    const [filepath, setFilepath] = useState<string>("")
     // keeps track of functions to call
     const [commandMap, setcommandMap] = useState<Map<string, REPLFunction>>(
-      new Map([["view", view]])
+      new Map([
+        ["view", view],
+        ["search", search],
+        ["load", load],
+      ])
     );
 
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
       setCount(count+1);
-      const userInput = commandString.split(" ");
-      console.log(userInput);
-
+      const userInput = commandString.split(" "); // split userInput into format [command args]
       const command = userInput[0];
-      const args = userInput[1]
+      const args = userInput.slice(1); // get everything but the command
+
+      if (filepath != "") {
+        args.push(filepath); // filepath will always be last arg if loaded
+      }
+
       // if command in myMap
       const result: string | string[][] =
-          commandMap.get(command)?.(["mock/view.csv"]) ?? "Command not found";
+          commandMap.get(command)?.(args) ?? "Command not found";
+
+      if (result != "Command not found" && command == "load") { // if we load successfully
+        setFilepath(args[0]);
+      }
       
       const flattenedResult: string[] = Array.isArray(result)
             ? result.flat()
             : [result];
-      
       props.setHistory([...props.history, ...flattenedResult])
       setCommandString('')
     }
