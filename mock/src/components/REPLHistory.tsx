@@ -21,12 +21,13 @@ export function REPLHistory(props : REPLHistoryProps) {
         <div className="repl-history">
           {props.history.map((command, index) =>
             command.isBrief ? (
-              <p>{command.result}</p>
+              <HistoryItem command={command.result} />
             ) : (
               <div>
                 <p>Command: {command.command}</p>
                 <p>Ouput:</p>
-                <p>{command.result}</p>
+                <HistoryItem command={command.result} />
+                {/* <p>{command.result}</p> */}
               </div>
             )
           )}
