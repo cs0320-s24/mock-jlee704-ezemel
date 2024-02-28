@@ -4,6 +4,7 @@ import { ControlledInput } from './ControlledInput';
 import {load} from './Commands/Load';
 import { view } from "./Commands/View";
 import { search } from "./Commands/Search";
+import { mode } from './Commands/Mode';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -22,13 +23,14 @@ export function REPLInput(props : REPLInputProps) {
     // keep track of filepath
     const [filepath, setFilepath] = useState<string>("")
     // keeps track of functions to call
-    const [commandMap, setcommandMap] = useState<Map<string, REPLFunction>>(
-      new Map([
-        ["view", view],
-        ["search", search],
-        ["load", load],
-      ])
-    );
+    const commandMap = new Map([
+      ["view", view],
+      ["search", search],
+      ["load", load],
+      ["mode", mode],
+    ]);
+
+    const [isBrief, setIsBrief] = useState<boolean>(true);
 
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
@@ -43,7 +45,8 @@ export function REPLInput(props : REPLInputProps) {
 
       // if command in myMap
       const result: string | string[][] =
-          commandMap.get(command)?.(args) ?? "Command not found";
+        commandMap.get(command)?.(args, isBrief, setIsBrief) ??
+        "Command not found";
 
       if (result != "Command not found" && command == "load") { // if we load successfully
         setFilepath(args[0]);
@@ -83,5 +86,5 @@ export function REPLInput(props : REPLInputProps) {
  * *NOT* contain the command-name prefix.
  */
 export interface REPLFunction {    
-  (args: Array<string>): string|string[][]
+  (args: Array<string>, isBrief: boolean, setIsBrief: (value: boolean) => void): string|string[][]
 }
