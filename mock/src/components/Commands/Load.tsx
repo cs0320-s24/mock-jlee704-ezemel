@@ -12,13 +12,14 @@ export const load: REPLFunction = (
     console.log(bool);
     console.log(isBrief);
 
-  if (bool) {
-    return "isbrief"
-  }
+    var res = "";
+
   if (csvDataMap[args[0]]) {
     // if file exists in map
-    return "load success!";
+    res =  "load success!";
+    return res;
   }
 
-  return "file not found";
+  res =  "file not found";
+  return res
 };

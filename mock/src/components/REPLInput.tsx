@@ -5,13 +5,21 @@ import {load} from './Commands/Load';
 import { view } from "./Commands/View";
 import { search } from "./Commands/Search";
 import { mode } from './Commands/Mode';
+import { log } from 'console';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
-  history: string[],
-  setHistory: Dispatch<SetStateAction<string[]>>,
+  history: Command[],
+  setHistory: Dispatch<SetStateAction<Command[]>>,
 }
+
+export interface Command {
+  command: string;
+  result: string | string[][]; 
+  isBrief: boolean;
+}
+
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
 export function REPLInput(props : REPLInputProps) {
@@ -19,9 +27,12 @@ export function REPLInput(props : REPLInputProps) {
     // Manages the contents of the input box
     const [commandString, setCommandString] = useState<string>('');
     // TODO WITH TA : add a count state
-    const [count, setCount] = useState<number>(0)
+    const [count, setCount] = useState<number>(0);
     // keep track of filepath
-    const [filepath, setFilepath] = useState<string>("")
+    const [filepath, setFilepath] = useState<string>("");
+    // keep track of brief state
+    const [isBrief, setIsBrief] = useState<boolean>(true);
+
     // keeps track of functions to call
     const commandMap = new Map([
       ["view", view],
@@ -29,8 +40,6 @@ export function REPLInput(props : REPLInputProps) {
       ["load", load],
       ["mode", mode],
     ]);
-
-    const [isBrief, setIsBrief] = useState<boolean>(true);
 
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
@@ -51,11 +60,14 @@ export function REPLInput(props : REPLInputProps) {
       if (result != "Command not found" && command == "load") { // if we load successfully
         setFilepath(args[0]);
       }
-      
-      const flattenedResult: string[] = Array.isArray(result)
-            ? result.flat()
-            : [result];
-      props.setHistory([...props.history, ...flattenedResult])
+ 
+      const commandObj: Command = {
+        command: command, // Store the full command entered by the user
+        result: result, // Will be updated later
+        isBrief: isBrief,
+      };
+    
+      props.setHistory([...props.history, commandObj]);
       setCommandString('')
     }
     /**
