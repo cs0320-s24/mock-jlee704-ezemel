@@ -9,9 +9,8 @@ export const csvDataMap: { [key: string]: string[][] } = {
     ["search", "search", "search"],
     ["search", "search", "search"],
   ],
-  "mock/load.csv": [
-    ["load", "load", "load"],
-    ["load", "load", "load"],
+  "valid": [
+    ["valid", "search", "row"],
   ],
 };
 
