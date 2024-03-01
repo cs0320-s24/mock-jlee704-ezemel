@@ -181,3 +181,10 @@ test.only('load and view', async ({ page }) => {
  
   expect(r5).toContain("validsearchrow");
 });
+
+//test addcommand - reload page?
+//test search for different csvs
+  //search by index, by name, by value
+//sign out button
+//test triggering all argument errors - syntax, params, csv not loaded yet
+//test help function
