@@ -3,8 +3,8 @@ import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
 import {load} from './Commands/Load';
 import { view } from "./Commands/View";
-import { searchColumnName } from "./Commands/SearchCName";
-import { searchColumnIndex } from "./Commands/SearchCIndex";
+import { searchColumnName } from "./Commands/Search";
+import { searchColumnIndex } from "./Commands/SearchIndex";
 import { mode } from './Commands/Mode';
 import { log } from 'console';
 
@@ -62,9 +62,9 @@ export function REPLInput(props : REPLInputProps) {
       const command = userInput[0];
       const args = userInput.slice(1); // get everything but the command
 
-      if (filepath != "") {
-        args.push(filepath); // filepath will always be last arg if loaded
-      }
+      // if (filepath != "") {
+      args.push(filepath); // filepath will always be last arg if loaded
+      // }
 
       // if command in myMap
       const result: string | string[][] =
