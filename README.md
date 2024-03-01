@@ -41,6 +41,11 @@ npm test. Tests included test the layout of the page, the login and sign out fun
 # How to
 To run locally, cd into the mock directory and run npm start. Then, open http://localhost:8000/ in your browser.
 
+To see available commands, log in and enter+submit 'help'.
+
+Developers can add extra functions and commands (not through the REPL) using the addCommand function in REPLInput. New commands
+will not show up in the help command without editing the REPLInput file.
+
 # Collaboration
 *(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)*
 
