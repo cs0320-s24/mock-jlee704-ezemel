@@ -22,9 +22,9 @@ export const searchColumnName: REPLFunction = (
     return "must load file first";
   }
 
-  if (value == "" || filepath == "") {
-    return "invalid inputs";
-  }
+  // if (value == "" || filepath == "") {
+  //   return "invalid inputs";
+  // }
 
   const mockData = csvDataMap[filepath] ?? "invalid search";
 

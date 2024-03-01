@@ -7,12 +7,15 @@ export const load: REPLFunction = (
   isBrief: boolean
 ): string | string[][] => {
 
-    const bool = isBrief
+    // const bool = isBrief
 
-    console.log(bool);
-    console.log(isBrief);
-
-    var res = "";
+    // console.log(bool);
+    // console.log(isBrief);
+  var res = "";
+  if(args.length != 2) {
+    res = "invalid syntax: load <filepath> <has column headers? (y/n)>";
+    return res;
+  }
 
   if (csvDataMap[args[0]]) {
     // if file exists in map

@@ -9,18 +9,22 @@ export const searchColumnIndex: REPLFunction = (
  isBrief: boolean,
 
 ): string | string[][] => {
-  const columnIndex = parseInt(args[0]) ?? -1;
-  const value = args[1] ?? "";
+  const value = args[0] ?? "";
+  const columnIndex = parseInt(args[1]) ?? -1;
   const filepath = args[2] ?? "";
   console.log(args);
+
+  if(args.length != 3) {
+    return "invalid syntax: searchindex <value> <columnIndex>";
+  }
 
   if (filepath == "") {
     return "must load file first";
   }
 
-  if (columnIndex == -1 || value == "" || filepath == "") {
-    return "invaid inputs";
-  }
+  // if (columnIndex == -1 || value == "" || filepath == "") {
+  //   return "invaid inputs";
+  // }
 
   const mockData = csvDataMap[args[0]] ?? "invalid search";
 
