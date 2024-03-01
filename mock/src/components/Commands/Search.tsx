@@ -3,8 +3,13 @@ import { csvDataMap } from "../../mockedJSON";
 import { REPLFunction } from "../REPLInput";
 import { log } from "console";
 
-
-export const searchColumnName: REPLFunction = (
+/**
+ * 
+ * @param args 
+ * @param isBrief 
+ * @returns 
+ */
+export const search: REPLFunction = (
   args: string[],
  isBrief: boolean,
 

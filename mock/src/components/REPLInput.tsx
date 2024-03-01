@@ -3,7 +3,7 @@ import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
 import {load} from './Commands/Load';
 import { view } from "./Commands/View";
-import { searchColumnName } from "./Commands/Search";
+import { search } from "./Commands/Search";
 import { searchColumnIndex } from "./Commands/SearchIndex";
 import { mode } from './Commands/Mode';
 import { log } from 'console';
@@ -43,11 +43,11 @@ const help: REPLFunction = (
 // keeps track of functions to call
 const commandMap = new Map([
   ["view", view],
-  ["search", searchColumnName],
+  ["search", search],
   ["searchindex", searchColumnIndex],
   ["load", load],
   ["mode", mode],
-  ["help", help]
+  // ["help", help]
 ]);
 
 
@@ -63,6 +63,11 @@ export function addCommand(commandString: string, func: REPLFunction) {
 
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
+/**
+ * Function for handling inputs to the REPL. Sets up the REPL command entry box with submit button.
+ * @param props 
+ * @returns 
+ */
 export function REPLInput(props : REPLInputProps) {
     // Remember: let React manage state in your webapp. 
     // Manages the contents of the input box
@@ -74,7 +79,7 @@ export function REPLInput(props : REPLInputProps) {
     // keep track of brief state
     const [isBrief, setIsBrief] = useState<boolean>(true);
 
-    
+    addCommand("help",help);
 
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
