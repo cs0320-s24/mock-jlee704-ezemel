@@ -352,7 +352,7 @@ test('command not found', async ({ page }) => {
   expect(r1).toContain("Command not found");
 });
 
-test.only('help', async ({ page }) => {
+test('help', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('help');
   await page.getByRole('button', {name: 'Submitted 0 times'}).click()
@@ -364,6 +364,44 @@ test.only('help', async ({ page }) => {
 
   expect(r1).toContain("available functions: {view}, {search <value> <column name (optional)>}, {searchindex <value> <column index>}, {load <filepath> <has column headers (y/n)>}, {mode}");
 });
+
+/**
+ * Tests ability to login, sign out, login again.
+ * Tests that the loaded data from the previous user session does not stay for the next.
+ */
+test.only('login/sign out/login', async ({ page }) => {
+  await expect(page.getByLabel('Sign Out')).not.toBeVisible()
+  await expect(page.getByLabel('Command input')).not.toBeVisible()
+  
+  // click the login button
+  await page.getByLabel('Login').click();
+  await expect(page.getByLabel('Sign Out')).toBeVisible()
+  await expect(page.getByLabel('Command input')).toBeVisible()
+  
+  // load
+  await page.getByLabel('Command input').fill('load valid n');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+  await page.getByLabel('Sign out').click();
+
+  // sign out
+  await expect(page.getByLabel('Sign Out')).not.toBeVisible()
+  await expect(page.getByLabel('Command input')).not.toBeVisible()
+  await expect(page.getByLabel('Login')).toBeVisible()
+  
+  // log back in
+  await page.getByLabel('Login').click();
+  await page.getByLabel('Command input').fill('view');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+
+  // confirm previously loaded data is not still loaded
+  const r1 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r1).toContain("file must be loaded before view");
+})
+
 //test addcommand - reload page?
 //test search for different csvs
   //search by index, by name, by value
