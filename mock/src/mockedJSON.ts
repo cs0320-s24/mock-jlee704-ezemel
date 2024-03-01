@@ -24,7 +24,6 @@ export const csvDataMap: { [key: string]: string[][] } = {
   ]
 };
 
-
 // For example, in your mocked CSV, one idea is to have 
 // the data but also have another variable that is the query.
 //  Then, you can decide if that mocked search is valid or not.

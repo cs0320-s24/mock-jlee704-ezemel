@@ -25,7 +25,7 @@ export function REPLHistory(props : REPLHistoryProps) {
             ) : (
               <div>
                 <p>Command: {command.command}</p>
-                <p>Ouput:</p>
+                <p>Output:</p>
                 <HistoryItem command={command.result} />
                 {/* <p>{command.result}</p> */}
               </div>
