@@ -20,6 +20,24 @@ export interface Command {
   isBrief: boolean;
 }
 
+// keeps track of functions to call
+const commandMap = new Map([
+  ["view", view],
+  ["search", search],
+  ["load", load],
+  ["mode", mode],
+]);
+
+/**
+ * Function for other devs to be able to add custom command handler functions
+ * to the REPL functionality
+ * @param commandString
+ * @param func 
+ */
+export function addCommand(commandString: string, func: REPLFunction) {
+  commandMap.set(commandString, func)
+}
+
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
 export function REPLInput(props : REPLInputProps) {
@@ -33,13 +51,7 @@ export function REPLInput(props : REPLInputProps) {
     // keep track of brief state
     const [isBrief, setIsBrief] = useState<boolean>(true);
 
-    // keeps track of functions to call
-    const commandMap = new Map([
-      ["view", view],
-      ["search", search],
-      ["load", load],
-      ["mode", mode],
-    ]);
+    
 
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
