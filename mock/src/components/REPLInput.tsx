@@ -133,6 +133,10 @@ export function REPLInput(props : REPLInputProps) {
  * 
  * The arguments passed in the input (which need not be named "args") should 
  * *NOT* contain the command-name prefix.
+ * 
+ * Added parameters:
+ * @param isBrief: boolean
+ * @param setIsBrief
  */
 export interface REPLFunction {    
   (args: Array<string>, isBrief: boolean, setIsBrief: (value: boolean) => void): string|string[][]

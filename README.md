@@ -35,8 +35,11 @@ Runtime/ space optimizations you made (if applicable):
 N/A
 
 # Tests
+Tests can be found in App.spec.ts in tests/e2e. To run tests, make sure playwright is installed, cd into the mock directory, and run 
+npm test. Tests included test the layout of the page, the login and sign out functionality, and all of the preset commands.
 
 # How to
+To run locally, cd into the mock directory and run npm start. Then, open http://localhost:8000/ in your browser.
 
 # Collaboration
 *(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)*
