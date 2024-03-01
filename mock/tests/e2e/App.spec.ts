@@ -369,7 +369,7 @@ test('help', async ({ page }) => {
  * Tests ability to login, sign out, login again.
  * Tests that the loaded data from the previous user session does not stay for the next.
  */
-test.only('login/sign out/login', async ({ page }) => {
+test('login/sign out/login', async ({ page }) => {
   await expect(page.getByLabel('Sign Out')).not.toBeVisible()
   await expect(page.getByLabel('Command input')).not.toBeVisible()
   
