@@ -15,10 +15,6 @@ export const load: REPLFunction = (
   isBrief: boolean
 ): string | string[][] => {
 
-    // const bool = isBrief
-
-    // console.log(bool);
-    // console.log(isBrief);
   var res = "";
   
   if(args.length != 3) {

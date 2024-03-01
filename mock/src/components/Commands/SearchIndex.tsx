@@ -30,9 +30,9 @@ export const searchColumnIndex: REPLFunction = (
     return "must load file first";
   }
 
-  // if (columnIndex == -1 || value == "" || filepath == "") {
-  //   return "invaid inputs";
-  // }
+  if (columnIndex == -1) {
+    return "invalid column index";
+  }
 
   const mockData = csvDataMap[args[0]] ?? "invalid search";
 

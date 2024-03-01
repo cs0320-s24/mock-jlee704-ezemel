@@ -11,8 +11,6 @@ interface HistoryItemProps {
  */
 export function HistoryItem({ command }: HistoryItemProps) {
 
-    console.log(typeof command);
-
    if(Array.isArray(command) && Array.isArray(command[0])) {
     return (
       <div className="history-item-table">
