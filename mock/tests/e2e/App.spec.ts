@@ -188,3 +188,7 @@ test.only('load and view', async ({ page }) => {
 //sign out button
 //test triggering all argument errors - syntax, params, csv not loaded yet
 //test help function
+//invalid command
+
+//empty csv - issue?
+//shortcuts?
