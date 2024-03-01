@@ -126,7 +126,7 @@ test('mode changing', async ({ page }) => {
 /**
  * Tests load syntax checking, view, and ability to switch between different CSVs
  */
-test.only('load and view', async ({ page }) => {
+test('load and view', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('load isudfh y');
   await page.getByRole('button', {name: 'Submitted 0 times'}).click()
@@ -182,6 +182,139 @@ test.only('load and view', async ({ page }) => {
   expect(r5).toContain("validsearchrow");
 });
 
+// test.only
+/**
+ * Test search by value, search by column name, search by column index.
+ * Test incorrect search syntax handling.
+ * Test search before view.
+ * Test one column, one row, and malformed csv.
+ */
+test('search', async ({ page }) => {
+  await page.getByLabel('Login').click();
+  await page.getByLabel('Command input').fill('load malformed y');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+  await page.getByLabel('Command input').fill('view');
+  await page.getByRole('button', {name: 'Submitted 1 times'}).click()
+
+  const r1 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r1).toContain("12123");
+
+  await page.getByLabel('Command input').fill('search 1');
+  await page.getByRole('button', {name: 'Submitted 2 times'}).click()
+
+  const r2 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r2).toContain("1212312123");
+
+  await page.getByLabel('Command input').fill('load one_column n');
+  await page.getByRole('button', {name: 'Submitted 3 times'}).click()
+  await page.getByLabel('Command input').fill('view');
+  await page.getByRole('button', {name: 'Submitted 4 times'}).click()
+
+  const r3 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r3).toContain("one columnone column");
+
+  await page.getByLabel('Command input').fill('search one one_column');
+  await page.getByRole('button', {name: 'Submitted 5 times'}).click()
+
+  const r4 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r4).toContain("one columnone columnone columnone column");
+
+  //search before view
+  await page.getByLabel('Command input').fill('load valid n');
+  await page.getByRole('button', {name: 'Submitted 6 times'}).click()
+  await page.getByLabel('Command input').fill('searchindex valid 5');
+  await page.getByRole('button', {name: 'Submitted 7 times'}).click()
+
+  const r5 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r5).toContain("validsearchrow");
+
+  //invalid syntax
+  await page.getByLabel('Command input').fill('searchindex valid 5 fg');
+  await page.getByRole('button', {name: 'Submitted 8 times'}).click()
+
+  const r6 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r6).toContain("invalid syntax: searchindex <value> <columnIndex>");
+  
+  await page.getByLabel('Command input').fill('searchindex valid');
+  await page.getByRole('button', {name: 'Submitted 9 times'}).click()
+
+  const r7 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r7).toContain("invalid syntax: searchindex <value> <columnIndex>invalid syntax: searchindex <value> <columnIndex>");
+  
+  await page.getByLabel('Command input').fill('search valid 5 fg');
+  await page.getByRole('button', {name: 'Submitted 10 times'}).click()
+
+  const r8 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r8).toContain("invalid syntax: search <value> <columnName (optional)>");
+
+  await page.getByLabel('Command input').fill('search');
+  await page.getByRole('button', {name: 'Submitted 11 times'}).click()
+
+  const r9 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r9).toContain("invalid syntax: search <value> <columnName (optional)>invalid syntax: search <value> <columnName (optional)>");
+
+});
+
+test.only('empty csv', async ({ page }) => {
+  await page.getByLabel('Login').click();
+  await page.getByLabel('Command input').fill('load empty y');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+
+  const firstChild = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(firstChild).toEqual("load success!");
+
+  await page.getByLabel('Command input').fill('view');
+  await page.getByRole('button', {name: 'Submitted 1 times'}).click()
+  await page.getByLabel('Command input').fill('load mock/search.csv y');
+  await page.getByRole('button', {name: 'Submitted 2 times'}).click()
+
+  const secondChild = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(secondChild).toEqual("load success!load success!");
+});
 //test addcommand - reload page?
 //test search for different csvs
   //search by index, by name, by value

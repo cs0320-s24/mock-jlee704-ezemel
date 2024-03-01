@@ -17,7 +17,7 @@ export const csvDataMap: { [key: string]: string[][] } = {
     ["one column"]
   ],
   "empty":
-  [], //successfully loads but returns "invalid format" for every command
+  [[]], //successfully loads but returns "invalid format" for every command
   "malformed": [
     ["1","2"],
     ["1","2","3"]
