@@ -21,6 +21,19 @@ export interface Command {
   isBrief: boolean;
 }
 
+const help: REPLFunction = (
+  args: string[],
+  isBrief: boolean,
+
+): string | string[][] => {
+  return "available functions: "+
+          "{view}, "+
+          "{search <value> <column name (optional)>}, "+
+          "{searchindex <value> <column index>}, "+
+          "{load <filepath> <has column headers (y/n)>}, "+
+          "{mode}";
+}
+
 // keeps track of functions to call
 const commandMap = new Map([
   ["view", view],
@@ -28,7 +41,9 @@ const commandMap = new Map([
   ["searchindex", searchColumnIndex],
   ["load", load],
   ["mode", mode],
+  ["help", help]
 ]);
+
 
 /**
  * Function for other devs to be able to add custom command handler functions
@@ -95,7 +110,7 @@ export function REPLInput(props : REPLInputProps) {
             {/* I opted to use this HTML tag; you don't need to. It structures multiple input fields
             into a single unit, which makes it easier for screenreaders to navigate. */}
             <fieldset>
-              <legend>Enter a command:</legend>
+              <legend>Enter a command: (enter 'help' for list of commands)</legend>
               <ControlledInput value={commandString} setValue={setCommandString} ariaLabel={"Command input"}/>
             </fieldset>
             {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
