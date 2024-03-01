@@ -291,7 +291,7 @@ test('search', async ({ page }) => {
 
 });
 
-test.only('empty csv', async ({ page }) => {
+test('empty csv', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('load empty y');
   await page.getByRole('button', {name: 'Submitted 0 times'}).click()
@@ -314,6 +314,55 @@ test.only('empty csv', async ({ page }) => {
   });
 
   expect(secondChild).toEqual("load success!load success!");
+});
+
+test('file not loaded', async ({ page }) => {
+  await page.getByLabel('Login').click();
+  await page.getByLabel('Command input').fill('view');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+
+  const r1 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r1).toContain("file must be loaded before view");
+
+  await page.getByLabel('Command input').fill('search dsouf');
+  await page.getByRole('button', {name: 'Submitted 1 times'}).click()
+
+  const r2 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r2).toContain("must load file first");
+});
+
+test('command not found', async ({ page }) => {
+  await page.getByLabel('Login').click();
+  await page.getByLabel('Command input').fill('sdfghjk');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+
+  const r1 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r1).toContain("Command not found");
+});
+
+test.only('help', async ({ page }) => {
+  await page.getByLabel('Login').click();
+  await page.getByLabel('Command input').fill('help');
+  await page.getByRole('button', {name: 'Submitted 0 times'}).click()
+
+  const r1 = await page.evaluate(() => {
+    const history = document.querySelector('.repl-history');
+    return history?.children[0]?.textContent;
+  });
+
+  expect(r1).toContain("available functions: {view}, {search <value> <column name (optional)>}, {searchindex <value> <column index>}, {load <filepath> <has column headers (y/n)>}, {mode}");
 });
 //test addcommand - reload page?
 //test search for different csvs
