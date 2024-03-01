@@ -4,12 +4,12 @@ import { REPLFunction } from "../REPLInput";
 import { log } from "console";
 
 
-export const search: REPLFunction = (
+export const searchColumnName: REPLFunction = (
   args: string[],
  isBrief: boolean,
 
 ): string | string[][] => {
-  const column = args[0] ?? "";
+  const columnName = args[0] ?? "";
   const value = args[1] ?? "";
   const filepath = args[2] ?? "";
   console.log(args);
@@ -18,7 +18,7 @@ export const search: REPLFunction = (
     return "must load file first";
   }
 
-  if (column == "" || value == "" || filepath == "") {
+  if (columnName == "" || value == "" || filepath == "") {
     return "invaid inputs";
   }
 

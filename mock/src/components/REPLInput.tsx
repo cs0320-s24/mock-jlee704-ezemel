@@ -3,7 +3,8 @@ import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
 import {load} from './Commands/Load';
 import { view } from "./Commands/View";
-import { search } from "./Commands/Search";
+import { searchColumnName } from "./Commands/SearchCName";
+import { searchColumnIndex } from "./Commands/SearchCIndex";
 import { mode } from './Commands/Mode';
 import { log } from 'console';
 
@@ -23,7 +24,8 @@ export interface Command {
 // keeps track of functions to call
 const commandMap = new Map([
   ["view", view],
-  ["search", search],
+  ["search", searchColumnName],
+  ["searchindex", searchColumnIndex],
   ["load", load],
   ["mode", mode],
 ]);
