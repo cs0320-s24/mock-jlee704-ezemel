@@ -21,10 +21,16 @@ export interface Command {
   isBrief: boolean;
 }
 
+/**
+ * Returns a list of available functions with their syntax.
+ * Does not update with any commands added by addCommand().
+ * @param args 
+ * @param isBrief 
+ * @returns 
+ */
 const help: REPLFunction = (
   args: string[],
   isBrief: boolean,
-
 ): string | string[][] => {
   return "available functions: "+
           "{view}, "+

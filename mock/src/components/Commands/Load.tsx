@@ -12,7 +12,8 @@ export const load: REPLFunction = (
     // console.log(bool);
     // console.log(isBrief);
   var res = "";
-  if(args.length != 2) {
+  
+  if(args.length != 3) {
     res = "invalid syntax: load <filepath> <has column headers? (y/n)>";
     return res;
   }

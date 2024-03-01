@@ -12,6 +12,16 @@ export const csvDataMap: { [key: string]: string[][] } = {
   "valid": [
     ["valid", "search", "row"],
   ],
+  "one_column": [
+    ["one column"],
+    ["one column"]
+  ],
+  "empty":
+  [], //successfully loads but returns "invalid format" for every command
+  "malformed": [
+    ["1","2"],
+    ["1","2","3"]
+  ]
 };
 
 
