@@ -12,7 +12,6 @@ import { expect, test } from "@playwright/test";
 // If you needed to do something before every test case...
 test.beforeEach(async ({ page }) => {
     // ... you'd put it here.
-    // TODO: Is there something we need to do before every test case to avoid repeating code?
     await page.goto('http://localhost:8000/');
     // await expect(page.getByLabel('Login')).toBeVisible()
     // await page.getByLabel('Login').click();
@@ -26,13 +25,11 @@ test.beforeEach(async ({ page }) => {
  */
 test('on page load, i see a login button', async ({ page }) => {
   // Notice: http, not https! Our front-end is not set up for HTTPs.
-  // await page.goto('http://localhost:8000/');
   await expect(page.getByLabel('Login')).toBeVisible()
 })
 
 test('on page load, i dont see the input box until login', async ({ page }) => {
   // Notice: http, not https! Our front-end is not set up for HTTPs.
-  // await page.goto('http://localhost:8000/');
   await expect(page.getByLabel('Sign Out')).not.toBeVisible()
   await expect(page.getByLabel('Command input')).not.toBeVisible()
   
@@ -59,15 +56,11 @@ test('after I type into the input box, its text changes', async ({ page }) => {
 });
 
 test('on page load, i see a button', async ({ page }) => {
-  // CHANGED
-  // await page.goto('http://localhost:8000/');
   await page.getByLabel('Login').click();
   await expect(page.getByRole('button', {name: 'Submitted 0 times'})).toBeVisible()
 });
 
 test('after I click the button, its label increments', async ({ page }) => {
-  // CHANGED
-  // await page.goto('http://localhost:8000/');
   await page.getByLabel('Login').click();
   await expect(page.getByRole('button', {name: 'Submitted 0 times'})).toBeVisible()
   await page.getByRole('button', {name: 'Submitted 0 times'}).click()
@@ -120,7 +113,7 @@ test('mode changing', async ({ page }) => {
     return history?.children[0]?.textContent;
   });
  
-  expect(r4).toContain("verbose mode");
+  expect(r4).toContain("brief mode!load success!");
 });
 
 /**
@@ -182,7 +175,6 @@ test('load and view', async ({ page }) => {
   expect(r5).toContain("validsearchrow");
 });
 
-// test.only
 /**
  * Test search by value, search by column name, search by column index.
  * Test incorrect search syntax handling.
@@ -291,6 +283,9 @@ test('search', async ({ page }) => {
 
 });
 
+/**
+ * Tests loading and viewing an empty csv
+ */
 test('empty csv', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('load empty y');
@@ -316,6 +311,9 @@ test('empty csv', async ({ page }) => {
   expect(secondChild).toEqual("load success!load success!");
 });
 
+/**
+ * Tests the output of view and search when no csv has been loaded
+ */
 test('file not loaded', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('view');
@@ -339,6 +337,9 @@ test('file not loaded', async ({ page }) => {
   expect(r2).toContain("must load file first");
 });
 
+/**
+ * Tests error message for trying a command that does not exist.
+ */
 test('command not found', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('sdfghjk');
@@ -352,6 +353,9 @@ test('command not found', async ({ page }) => {
   expect(r1).toContain("Command not found");
 });
 
+/**
+ * Test for the 'help' command
+ */
 test('help', async ({ page }) => {
   await page.getByLabel('Login').click();
   await page.getByLabel('Command input').fill('help');

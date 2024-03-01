@@ -4,6 +4,11 @@ interface HistoryItemProps {
   command: string | string[][];
 }
 
+/**
+ * For arrays of strings aka CSVs, returns HTML table. Otherwise normal paragraph.
+ * @param param0 
+ * @returns 
+ */
 export function HistoryItem({ command }: HistoryItemProps) {
 
     console.log(typeof command);

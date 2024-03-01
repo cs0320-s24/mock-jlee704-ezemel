@@ -10,7 +10,6 @@ import { log } from 'console';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
-  // CHANGED
   history: Command[],
   setHistory: Dispatch<SetStateAction<Command[]>>,
 }
@@ -79,7 +78,7 @@ export function REPLInput(props : REPLInputProps) {
     // keep track of brief state
     const [isBrief, setIsBrief] = useState<boolean>(true);
 
-    addCommand("help",help);
+    addCommand("help",help); //add the help command to the commandMap, shows functionality of addCommand
 
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
@@ -88,9 +87,7 @@ export function REPLInput(props : REPLInputProps) {
       const command = userInput[0];
       const args = userInput.slice(1); // get everything but the command
 
-      // if (filepath != "") {
-      args.push(filepath); // filepath will always be last arg if loaded
-      // }
+      args.push(filepath); // filepath will always be last arg, last arg will be "" if no file loaded
 
       // if command in myMap
       const result: string | string[][] =

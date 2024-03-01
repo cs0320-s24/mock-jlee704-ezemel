@@ -2,6 +2,14 @@ import { useState } from "react";
 import { csvDataMap } from "../../mockedJSON";
 import { REPLFunction} from "../REPLInput";
 
+/**
+ * Sets the filepath. Returns a success message if the filepath is valid.
+ * Takes in <filepath> and <has column headers? (y/n)> as args.
+ * 
+ * @param args 
+ * @param isBrief 
+ * @returns 
+ */
 export const load: REPLFunction = (
   args: string[],
   isBrief: boolean

@@ -3,7 +3,15 @@ import { csvDataMap } from "../../mockedJSON";
 import { REPLFunction } from "../REPLInput";
 import { log } from "console";
 
-
+/**
+ * Search function for the REPL. Takes value and column index as args,
+ * with filepath as the last arg. Filepath will = "" if no file has been loaded.
+ * Mocked version returns the whole csv for every search as long as the filepath is
+ * to a real mocked csv.
+ * @param args
+ * @param isBrief 
+ * @returns 
+ */
 export const searchColumnIndex: REPLFunction = (
   args: string[],
  isBrief: boolean,

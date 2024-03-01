@@ -2,6 +2,14 @@ import { useState } from "react";
 import { csvDataMap } from "../../mockedJSON";
 import { REPLFunction } from "../REPLInput";
 
+/**
+ * Switches the mode between brief and verbose using parameterized setIsBrief and isBrief.
+ * Returns a message with the result.
+ * @param args
+ * @param isBrief 
+ * @param setIsBrief 
+ * @returns 
+ */
 export const mode: REPLFunction = (
   args: string[],
   isBrief: boolean,
