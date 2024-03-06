@@ -4,3 +4,4 @@ mock/src/*.js
 mock/test-results/
 mock/playwright-report/
 mock/playwright/.cache/
+mock/my-app/node_modules
